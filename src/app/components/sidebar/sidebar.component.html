@@ -1,0 +1,19 @@
+<div id="left" class="column">
+  <div class="bottom-left">
+      <ul class="side-nav">
+        <li *ngFor="let key of service.getCategories() ">
+          <button class="dropdown-btn" (click)="selectCategory(key)">{{ key.category }}
+            <i *ngIf="key.subcategories?.length != 0" class="fa"
+               [ngClass]="{ 'fa-caret-down': isOpen(key), 'fa-caret-right': !isOpen(key) }"></i>
+          </button>
+          <ul *ngIf="isOpen(key)" id="categorySubmenu">
+            <li *ngFor="let obj of key.subcategories">
+              <a routerLink="products" [class.activated] = "currentUrl == '/products'">{{ obj.name }}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+  </div>
+</div>
+
+

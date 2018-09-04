@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Add Product</h1>
+<div mat-dialog-content>
+  <p>Name</p>
+  <mat-form-field>
+    <input matInput required="required">
+  </mat-form-field>
+  <p>UnitPrice</p>
+  <mat-form-field>
+    <input matInput type="number" required="required">
+  </mat-form-field>
+  <p>Description</p>
+  <mat-form-field>
+    <input matInput type="text"/>
+  </mat-form-field>
+  <p>PhotoUrl</p>
+  <mat-form-field>
+    <input matInput>
+  </mat-form-field>
+  <p>Category</p>
+  <mat-form-field>
+    <input matInput>
+  </mat-form-field>
+  <p>Subcategory</p>
+  <mat-form-field>
+    <input matInput>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Anulare</button>
+  <button mat-button mat-dialog-close (click)="addProduct()" >Save</button>
+</div>

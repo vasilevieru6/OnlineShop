@@ -1,0 +1,50 @@
+div.header{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.nav-item{
+  display: inline-block;
+}
+
+.content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-expand a {display: none;}
+  .navbar-expand button.icon {
+    display: block;
+  }
+}
+.show{
+  display: block;
+}
+
+.navbar-expand .icon{
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-expand.responsive {
+    position: relative;
+  }
+
+  .navbar-expand.responsive button.icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+
+  }
+
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+

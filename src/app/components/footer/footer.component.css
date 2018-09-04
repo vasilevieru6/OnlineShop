@@ -1,0 +1,31 @@
+.fa-heart {
+  color: hotpink;
+}
+
+/*.footer {*/
+  /*padding-left: 240px;*/
+  /*position: absolute;*/
+  /*!*overflow-y: hidden;*!*/
+/*}*/
+
+@media only screen and (max-width : 992px) {
+  .footer {
+    padding-left: 0;
+  }
+}
+
+i{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+mat-toolbar{
+  background-color: #343a40;
+  bottom: 0;
+  position: absolute;
+}
+
+mat-toolbar-row{
+  color: white;
+  justify-content: center;
+}

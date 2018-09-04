@@ -1,0 +1,19 @@
+@media screen and (max-width: 600px) {
+  .container{
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+
+#context{
+  //display: flex;
+  //flex-wrap: wrap;
+  //justify-content: flex-start;
+  flex: 1;
+  overflow: auto;
+}
+
+div.container{
+  //position: absolute;
+}

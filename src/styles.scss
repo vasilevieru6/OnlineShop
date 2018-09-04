@@ -1,0 +1,31 @@
+@import "~bootstrap/scss/bootstrap.scss";
+//@import "~@material/icon-button/mdc-icon-button";
+
+body {
+  height: 100%;
+  width: 100%;
+  //overflow: hidden;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  position: relative;/*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
+  /*margin: 0px;  !*removes default style*!*/
+}
+
+
+
+html, body { height: 100%; }
+
+//header, main, footer {
+//  //padding-left: 240px;
+//}
+
+*{
+  box-sizing: border-box;
+}
+
+#content{
+  flex-grow: 1;
+  overflow-y: auto;
+
+  margin-bottom: 60px;
+}

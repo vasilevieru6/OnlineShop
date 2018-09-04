@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 
 
 export class AppComponent {
   title = 'FinalProjec';
+
 }
 

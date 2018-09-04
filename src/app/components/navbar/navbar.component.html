@@ -1,0 +1,61 @@
+<!--<nav class="navbar navbar-expand-sm navbar-dark bg-dark">-->
+<!--<button class="navbar-toggler icon" type="button" (click)="toggleNavbar = !toggleNavbar">-->
+<!--<span class="navbar-toggler-icon"></span>-->
+<!--</button>-->
+<!--<div class="collapse navbar-collapse" [ngbCollapse]="toggleNavbar">-->
+<!--<ul class="navbar-nav">-->
+<!--<li class="nav-item active">-->
+<!--<a class="nav-link" href="#">Principala <span class="sr-only">(current)</span></a>-->
+<!--</li>-->
+<!--<li class="nav-item">-->
+<!--<a class="nav-link" href="#">Catalog</a>-->
+<!--</li>-->
+<!--<li class="nav-item">-->
+<!--<a class="nav-link" href="#">Reduceri</a>-->
+<!--</li>-->
+<!--<li class="nav-item">-->
+<!--<a class="nav-link" href="#">Livrare</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+
+<!--<div class="navbar-expand ml-auto navbar-nav">-->
+<!--<div class="navbar-nav">-->
+
+<!--<button mat-button routerLink="/login" [hidden]="isLoggedIn$ | async" class="login">Login</button>-->
+<!--<button mat-button (click)="onLogout()" *ngIf="isLoggedIn$ | async" class="logout">Logout</button>-->
+
+<!--<a class="nav-item nav-link" href="https://github.com/vasilevieru" target="_blank">-->
+<!--<i class="fa fa-github"></i>-->
+<!--</a>-->
+<!--<a class="nav-item nav-link" target="_blank">-->
+<!--<i class="fa fa-odnoklassniki"></i>-->
+<!--</a>-->
+<!--<a class="nav-item nav-link" target="_blank">-->
+<!--<i class="fa fa-instagram"></i>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</nav>-->
+
+
+<div class="header">
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <div class="principal collapse" [ngClass]="{'show' : isNavbarOpen === true}">
+        <a href="#">Principala<span class="sr-only">(current)</span></a>
+        <a href="#">Catalog</a>
+        <a href="#">Reduceri</a>
+        <a href="#">Livrare</a>
+        <i class="material-icons" (click)="toggleNavbar = !toggleNavbar">reorder</i>
+      </div>
+      <div class="secundar">
+        <button mat-button routerLink="/login" [hidden]="isLoggedIn$ | async" class="login">Login</button>
+        <button mat-button (click)="onLogout()" *ngIf="isLoggedIn$ | async" class="logout">Logout</button>
+        <a href="#" target="_blank"><i class="fa fa-instagram"></i> </a>
+        <a href="#" target="_blank"><i class="fa fa-github"></i> </a>
+        <a href="#" target="_blank"><i class="fa fa-odnoklassniki"></i> </a>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>

@@ -5,6 +5,8 @@ import {CatalogComponent} from './components/catalog/catalog.component';
 import { ItemsComponent } from './components/items/items.component';
 import { LoginComponent } from './components/login/login.component';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
+import {ListProductComponent} from './components/admin/list-product/list-product.component';
+import {AddProductComponent} from './components/admin/add-product/add-product.component';
 
 
 export const routerConfig: Routes = [
@@ -31,11 +33,18 @@ export const routerConfig: Routes = [
     component: LoginComponent
   },
   {
-    path: 'products',
+    path: 'product/:category/:subCategory',
     component: ItemsComponent
   },{
     path: 'profile',
     component: UserProfileComponent
+  },
+  {
+    path: 'list',
+    component: ListProductComponent
+  },{
+    path: 'create',
+    component: AddProductComponent
   }
 
 ];

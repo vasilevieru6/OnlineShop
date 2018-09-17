@@ -1,10 +1,11 @@
 @import "~bootstrap/scss/bootstrap.scss";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 //@import "~@material/icon-button/mdc-icon-button";
 
 body {
   height: 100%;
   width: 100%;
-  //overflow: hidden;
+  // overflow: hidden;
   margin: 0;
   font-family: 'Roboto', sans-serif;
   position: relative;/*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/

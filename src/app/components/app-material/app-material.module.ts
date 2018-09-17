@@ -7,6 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material';
 import { MatGridListModule } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 @NgModule({
   exports: [
     MatToolbarModule,
@@ -15,7 +19,10 @@ import { MatGridListModule } from '@angular/material';
     MatFormFieldModule,
     MatButtonModule,
     MatExpansionModule,
-    MatGridListModule
+    MatGridListModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatAutocompleteModule
 
   ]
 })

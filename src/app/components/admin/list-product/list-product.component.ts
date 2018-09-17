@@ -1,63 +1,83 @@
-// import {Component, Inject, OnInit} from '@angular/core';
-// import {Product} from '../../models/Product';
-// import {Router} from '@angular/router';
-// import {CategoriesService} from '../../services/product.service';
-// import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-//
-// @Component({
-//   selector: 'app-list-product',
-//   templateUrl: './list-product.component.html',
-//   styleUrls: ['./list-product.component.scss']
-// })
-// export class ListProductComponent implements OnInit {
-//
-//   // products: Product[];
-//   // prod: Product;
-//   //
-//   // constructor(private router: Router, private productService: CategoriesService, public dialog: MatDialog) { }
-//   //
-//   // ngOnInit() {
-//   //   this.productService.getCategories()
-//   //     .subscribe(data => {
-//   //       this.products = data;
-//   //     });
-//   // }
-//   //
-//   // addProduct() {
-//   //   this.router.navigate(['add-product']);
-//   // }
-//   //
-//   // editProduct(product: Product) {
-//   //   localStorage.removeItem("editProductId");
-//   //   localStorage.setItem("editProductId", product.id.toString());
-//   //   this.router.navigate(['edit-product']);
-//   //
-//   // }
-//   //
-//   // deleteProduct(product: Product): void {
-//   //   this.productService.deleteProduct(product.id)
-//   //     .subscribe(data => {
-//   //       this.products = this.products.filter(p => p !== product);
-//   //     })
-//   // };
-//   //
-//   // openDialog(): void {
-//   //   const dialogRef = this.dialog.open(DialogOverViewExampleDialog,{
-//   //     width: '300px',
-//   //     data: this.prod
-//   //   });
-//   //
-//   //   dialogRef.afterClosed().subscribe(result => {
-//   //     console.log('The dialog was closed');
-//   //     this.prod = result;
-//   //   });
-//   // }
-// }
-//
-// // export class DialogOverViewExampleDialog {
-// //   constructor(public dialogRef: MatDialogRef<DialogOverViewExampleDialog>,@Inject(MAT_DIALOG_DATA) public data: Product){}
-// //
-// //   onNoClick(): void {
-// //     this.dialogRef.close();
-// //   }
-// // }
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Product} from '../../../models/Product';
+import {ProductService} from '../../../services/product.service';
+import {MatDialog, MatDialogConfig, MatDialogRef, MatTableDataSource} from '@angular/material';
+import {AddProductComponent} from '../add-product/add-product.component';
+import {forEach} from '@angular/router/src/utils/collection';
+
+
+@Component({
+  selector: 'app-list-product',
+  templateUrl: './list-product.component.html',
+  styleUrls: ['./list-product.component.scss']
+})
+export class ListProductComponent implements OnInit {
+  products: Product[] = [];
+  product: Product;
+  dialogRef: MatDialogRef<AddProductComponent>;
+  dataSource = new MatTableDataSource(this.dataSource);
+  public displayedColumns = ['name', 'unitPrice', 'description', 'category', 'subCategory', 'photoUrl', 'actionsColumn'];
+  editing = false;
+  index: number;
+
+
+  constructor(private service: ProductService, private dialog: MatDialog) {
+  }
+
+  getDialogConfig(){
+    const dialogConfig = new MatDialogConfig<Product>();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.height = '550px';
+    dialogConfig.width = '450px';
+    return dialogConfig;
+  }
+
+  openDialog() {
+
+    let config = this.getDialogConfig();
+    config.data = this.product;
+
+    this.dialogRef = this.dialog.open(AddProductComponent, config);
+
+    this.dialogRef.afterClosed().subscribe(data => {
+      this.product = data;
+
+      if (this.editing === false) {
+        this.service.createProduct(this.product);
+        console.log("creating");
+        this.dataSource.push(this.product);
+        this.dataSource = new MatTableDataSource(this.dataSource);
+        this.editing = true;
+      } else {
+        this.editing = false;
+
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.service.getAllProducts().subscribe(data => this.dataSource = data);
+  }
+
+  createProduct() {
+    this.product = new Product();
+    this.openDialog();
+  }
+
+  startEdit(i: number, p: Product) {
+    this.editing = true;
+    this.product = p;
+    let config = this.getDialogConfig();
+    config.data = p;
+    this.dialog.open(AddProductComponent, config);
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      // if(result === 1){
+      //   const foundIndex = this.dataSource.value.findIndex(x=> x.id === p.id);
+      //   this.dataSource.value[foundIndex] = result;
+      // }
+    })
+  }
+}

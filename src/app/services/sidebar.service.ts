@@ -1,41 +1,18 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import 'rxjs-compat/add/operator/map';
+import {Observable} from 'rxjs';
+import {ProductCategories} from '../models/ProductCategories';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidebarService {
 
-  constructor() {
-  }
-  output =
-    [
-      {
-        'category': 'Totul pentru scoala',
-        'subcategories': [
-          {'name' : 'Ghiozdane ortopedice'},
-          {'name' : 'Rucsacuri scolare'},
-          {'name' : 'Rucasacuri mini'},
-          {'name' : 'Genti de sport'},
-          {'name' : 'Penare'}
-        ]
-      },
-      {
-        'category': 'Mobila pentru copii',
-        'subcategories':
-          [
-            {'name' : 'Paturi tip transformer'},
-            {'name' : 'Paturi tip standard'},
-            {'name' : 'Paturi CHICCO'},
-            {'name' : 'Accesorii pentru paturi'}
-          ]
-      },
-      {
-        'category' : 'dfs',
-        'subcategories':[]
-      }
-    ];
+  baseUrl: string = 'api/product/categories';
+  prod: Object;
 
-  getCategories(){
-    return this.output;
+
+  constructor(private http: HttpClient) {
   }
 }

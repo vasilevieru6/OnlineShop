@@ -37,7 +37,11 @@ mat-card{
 mat-card-actions{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+}
+
+span.price{
+  color: #81d742;
 }
 
 @media screen and (max-width: 600px){
@@ -46,3 +50,17 @@ mat-card-actions{
     margin-right: 0;
   }
 }
+
+h2{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+span.md-body-1{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+}
+

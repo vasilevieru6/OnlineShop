@@ -1,22 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
-import {NavigationEnd, Router} from '@angular/router';
-
-@Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
-})
-export class HomeComponent implements OnInit {
-  isLoggedIn$: Observable<boolean>;
-  currentUr: string;
-
-  constructor(private authService: AuthService, private router: Router) {
-    router.events.subscribe((_: NavigationEnd) => this.currentUr = _.url);
-  }
-
-  ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn;
-  }
-}
+// import { OktaAuthService } from '@okta/okta-angular';
+// import {ProductService} from '../../services/product.service';
+//
+// // ...
+//
+// export class HomeComponent {
+//   public joggingData: any[] = [];
+//   public currentJogging: any;
+//   public isAuthenticated: boolean;
+//
+//   constructor(public oktaAuth: OktaAuthService, private productService: ProductService) {
+//     // get authentication state for immediate use
+//     this.oktaAuth.isAuthenticated().then(result => {
+//       this.isAuthenticated = result;
+//     });
+//
+//     // subscribe to authentication state changes
+//     this.oktaAuth.$authenticationState.subscribe(
+//       (isAuthenticated: boolean) => this.isAuthenticated = isAuthenticated
+//     );
+//
+//     productService.getCategories().subscribe((data: any[]) => this.joggingData = data);
+//     // this.currentJogging = this.setInitialValuesForJoggingData();
+//   }
+// }

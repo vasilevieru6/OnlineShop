@@ -1,17 +1,17 @@
-[layout-wrap]{
-  flex-wrap: wrap;
-}
+/*[layout-wrap]{*/
+  /*flex-wrap: wrap;*/
+/*}*/
 
-[layout=column]{
-  flex-direction: column;
-}
+/*[layout=column]{*/
+  /*flex-direction: column;*/
+/*}*/
 
-[layout]{
-  box-sizing: border-box;
-  display: flex;
-}
+/*[layout]{*/
+  /*box-sizing: border-box;*/
+  /*display: flex;*/
+/*}*/
 
-div{
-  display: block;
-}
+/*div{*/
+  /*display: block;*/
+/*}*/
 

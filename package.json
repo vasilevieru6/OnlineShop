@@ -25,6 +25,7 @@
     "@angular/router": "^6.1.6",
     "@material/icon-button": "^0.39.1",
     "@ng-bootstrap/ng-bootstrap": "^3.2.0",
+    "@okta/okta-angular": "^1.0.3",
     "@progress/kendo-angular-scrollview": "^2.0.2",
     "@types/chart.js": "^2.7.31",
     "angular-bootstrap-md": "^6.2.2",

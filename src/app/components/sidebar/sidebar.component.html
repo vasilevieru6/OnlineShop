@@ -1,14 +1,14 @@
 <div id="left" class="column">
   <div class="bottom-left">
       <ul class="side-nav">
-        <li *ngFor="let key of service.getCategories() ">
-          <button class="dropdown-btn" (click)="selectCategory(key)">{{ key.category }}
-            <i *ngIf="key.subcategories?.length != 0" class="fa"
+        <li *ngFor="let key of categories">
+          <button class="dropdown-btn" (click)="selectCategory(key) ">{{ key.category }}
+            <i *ngIf="key.subCategories.length > 0 && key.subCategories[0] != null" class="fa"
                [ngClass]="{ 'fa-caret-down': isOpen(key), 'fa-caret-right': !isOpen(key) }"></i>
           </button>
           <ul *ngIf="isOpen(key)" id="categorySubmenu">
-            <li *ngFor="let obj of key.subcategories">
-              <a routerLink="products" [class.activated] = "currentUrl == '/products'">{{ obj.name }}</a>
+            <li *ngFor="let obj of key.subCategories">
+              <a routerLink="product/{{ key.category }}/{{ obj }}" (click)="service.getProductsOfCategory(key.category, obj)"  [class.activated] = "true">{{ obj }}</a>
             </li>
           </ul>
         </li>

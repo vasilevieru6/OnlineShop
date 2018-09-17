@@ -1,8 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {Product} from '../../models/Product';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef, MatFormFieldControl} from '@angular/material';
+import {Product} from '../../../models/Product';
+import {Observable} from 'rxjs';
+import {ProductService} from '../../../services/product.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Output, EventEmitter, Input } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-product',
@@ -11,35 +15,57 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class AddProductComponent implements OnInit {
 
+  createProductForm: FormGroup;
+  formControl: FormControl;
+  submitted = false;
   prod: Product;
-  form: FormGroup;
-  constructor(private formBuilder: FormBuilder, private dialogRef: MatDialogRef<AddProductComponent>, @Inject(MAT_DIALOG_DATA) data: Product) {
-    this.prod = data;
+  product: Product;
+  private formSubmitAttempt: boolean;
+  filteredCategories: Observable<string[]>;
+  filteredSubcategories: Observable<string[]>;
+  constructor(private formBuilder: FormBuilder, private dialogRef: MatDialogRef<AddProductComponent>, @Inject(MAT_DIALOG_DATA) private data, private sevice: ProductService) {
+    this.formControl = new FormControl("",[Validators.required]);
+
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group(this.prod)
+    this.prod = this.data;
   }
 
+  // get f(){ return this.createProductForm.controls; }
+
+  onSubmit(){
+    this.submitted = true;
+  }
+
+  getErrorMessage(){ return this.formControl.hasError('required') ? 'Required field' : ''; }
+
+  // isFieldInvalid(field: string) { // {6}
+  //   return (
+  //     (!this.createProductForm.get(field).valid && this.createProductForm.get(field).touched) ||
+  //     (this.createProductForm.get(field).untouched && this.formSubmitAttempt) || (!this.createProductForm.get(field).value)
+  //   );
+  // }
+
   save(){
-    this.dialogRef.close(this.form.value);
+    this.fillProduct();
+    this.dialogRef.close(this.product);
+  }
+
+  fillProduct(){
+    this.product = new Product();
+    //this.product.id = this.formControl.get('id').value;
+    this.product.name = this.formControl.value.name;
+    this.product.unitPrice = this.formControl.value.unitPrice;
+    this.product.description = this.formControl.value.description;
+    this.product.photoUrl = this.formControl.value.photoUrl;
+    this.product.category = this.formControl.value.category;
+    this.product.subCategory = this.formControl.value.subCategory;
   }
 
   close(){
     this.dialogRef.close();
   }
-  // addProduct() {
-  //   this.router.navigate(['add-product']);
-  // }
-  //
-  // onNoClick(): void {
-  //   this.dialog.closeAll();
-  // }
 
 }
 
-export class DialogOverViewExampleDialog {
-  constructor(private dialogRef: MatDialogRef<AddProductComponent>,@Inject(MAT_DIALOG_DATA) public data: Product){}
-
-
-}

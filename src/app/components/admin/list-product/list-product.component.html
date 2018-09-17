@@ -1,30 +1,86 @@
-<!--<div class="col-md-6">-->
-  <!--<h2> Product Details</h2>-->
-  <!--<button class="btn btn-danger" mat-raised-button (click)="openDialog()"> Add Product</button>-->
-  <!--<table class="table table-striped">-->
-    <!--<thead>-->
-    <!--<tr>-->
-      <!--<th class="hidden">Id</th>-->
-      <!--<th>Name</th>-->
-      <!--<th>UnitPrice</th>-->
-      <!--<th>Description</th>-->
-      <!--<th>PhotoUrl</th>-->
-      <!--<th>Category</th>-->
-      <!--<th>Subcategory</th>-->
-    <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr *ngFor="let product of products">-->
-      <!--<td class="hidden"></td>-->
-      <!--<td></td>-->
-      <!--<td></td>-->
-      <!--<td></td>-->
-      <!--<td><button class="btn btn-danger" (click)="deleteProduct(product)"> Delete</button>-->
-        <!--<button class="btn btn-danger" (click)="editProduct(product)" style="margin-left: 20px;"> Edit</button></td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-  <!--</table>-->
-<!--</div>-->
+<div class="mat-elevation-z3 ">
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-form-field>
+          <input matInput value="{{ product.id }}" [readonly]="true">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-form-field>
+          <input matInput value="{{ product.name }}" [readonly]="true">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="unitPrice">
+      <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-form-field floatLabel="never">
+          <input matInput value="{{ product.unitPrice }}" [readonly]="true">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-form-field>
+          <input matInput value="{{ product.description }}" [readonly]="true">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-form-field>
+          <input matInput value="{{ product.category }}" [readonly]="true">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="subCategory">
+      <mat-header-cell *matHeaderCellDef>SubCategory</mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-form-field>
+          <input matInput value="{{ product.subCategory }}" [readonly]="true">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="photoUrl">
+      <mat-header-cell *matHeaderCellDef>Photo URL</mat-header-cell>
+      <mat-cell *matCellDef="let product">
+        <mat-form-field>
+          <input matInput value="{{ product.photoUrl }}" [readonly]="true">
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actionsColumn">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="accent" (click)="createProduct()">
+          <i class="fa fa-plus mat-icon"></i>
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row; let i = index;">
+        <button  mat-icon-button color="primary" (click)="startEdit(i,row)">
+          <i class="fa fa-pencil mat-icon"></i>
+        </button>
+        <!--<button *ngIf="editing" mat-icon-button color="primary" (click)="confirmEditCreate()">-->
+          <!--<i class="fa fa-check mat-icon"></i>-->
+        <!--</button>-->
+        <button mat-icon-button color="primary">
+          <i class="fa fa-times mat-icon"></i>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns" ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
 
 
 

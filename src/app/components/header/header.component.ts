@@ -1,6 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,14 +11,14 @@ export class HeaderComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   isNavbarOpen = false;
   public shouldStick = false;
-  constructor(private authService: AuthService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn;
+    //this.isLoggedIn$ = this.authService.isLoggedIn;
   }
 
   onLogout() {
-    this.authService.logout();
+    //this.authService.logout();
 
   }
 
@@ -31,13 +30,13 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll($event) {
-    const number = $event.target.scrollTop;
-    if (number > 40) {
-      this.shouldStick = true;
-    } else if (this.shouldStick && number < 10) {
-      this.shouldStick = false;
-    }
-  }
+  // @HostListener('window:scroll', ['$event'])
+  // onWindowScroll($event) {
+  //   const number = $event.target.scrollTop;
+  //   if (number > 40) {
+  //     this.shouldStick = true;
+  //   } else if (this.shouldStick && number < 10) {
+  //     this.shouldStick = false;
+  //   }
+  // }
 }

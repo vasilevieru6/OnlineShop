@@ -1,59 +1,45 @@
-<div class="mat-elevation-z3 ">
+<div class="mat-elevation-z8 list-prod">
   <mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
       <mat-cell *matCellDef="let product">
-        <mat-form-field>
-          <input matInput value="{{ product.id }}" [readonly]="true">
-        </mat-form-field>
+          <span> {{ product.id }} </span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
       <mat-cell *matCellDef="let product">
-        <mat-form-field>
-          <input matInput value="{{ product.name }}" [readonly]="true">
-        </mat-form-field>
+          <span>{{ product.name }}</span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="unitPrice">
       <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
       <mat-cell *matCellDef="let product">
-        <mat-form-field floatLabel="never">
-          <input matInput value="{{ product.unitPrice }}" [readonly]="true">
-        </mat-form-field>
+          <span>{{ product.unitPrice }}</span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
       <mat-cell *matCellDef="let product">
-        <mat-form-field>
-          <input matInput value="{{ product.description }}" [readonly]="true">
-        </mat-form-field>
+          <span>{{ product.description }}</span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="category">
       <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
       <mat-cell *matCellDef="let product">
-        <mat-form-field>
-          <input matInput value="{{ product.category }}" [readonly]="true">
-        </mat-form-field>
+          <span>{{ product.category }}</span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="subCategory">
       <mat-header-cell *matHeaderCellDef>SubCategory</mat-header-cell>
       <mat-cell *matCellDef="let product">
-        <mat-form-field>
-          <input matInput value="{{ product.subCategory }}" [readonly]="true">
-        </mat-form-field>
+          <span>{{ product.subCategory }}</span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="photoUrl">
       <mat-header-cell *matHeaderCellDef>Photo URL</mat-header-cell>
       <mat-cell *matCellDef="let product">
-        <mat-form-field>
-          <input matInput value="{{ product.photoUrl }}" [readonly]="true">
-        </mat-form-field>
+          <span>{{ product.photoUrl }}</span>
       </mat-cell>
     </ng-container>
 
@@ -67,10 +53,7 @@
         <button  mat-icon-button color="primary" (click)="startEdit(i,row)">
           <i class="fa fa-pencil mat-icon"></i>
         </button>
-        <!--<button *ngIf="editing" mat-icon-button color="primary" (click)="confirmEditCreate()">-->
-          <!--<i class="fa fa-check mat-icon"></i>-->
-        <!--</button>-->
-        <button mat-icon-button color="primary">
+        <button mat-icon-button color="primary" (click)="delete(i, row)">
           <i class="fa fa-times mat-icon"></i>
         </button>
       </mat-cell>
@@ -78,7 +61,8 @@
     <mat-header-row *matHeaderRowDef="displayedColumns" ></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[2, 5, 10, 20, 50]" [length]="totalSize"
+                 [pageIndex]="currentPage" (page)="pageEvent = handlePage($event)"></mat-paginator>
 </div>
 
 

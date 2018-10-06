@@ -5,33 +5,49 @@
   <div class="collapse navbar-collapse" [ngbCollapse]="toggleNavbar">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Principala <span class="sr-only">(current)</span></a>
+        <a class="nav-link" routerLink="">Principala <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Catalog</a>
+        <a class="nav-link">Catalog</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Reduceri</a>
+        <a class="nav-link" routerLink="reduceri">Reduceri</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Livrare</a>
+        <a class="nav-link" routerLink="livrare" *ngIf="currentUserService.isCustomer() | async">Livrare</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="list" *ngIf="currentUserService.isAdmin() | async">List Products</a>
       </li>
     </ul>
   </div>
 
   <div class="navbar-expand ml-auto navbar-nav">
     <div class="navbar-nav">
+      <li [routerLinkActive]="['active']">
+        <a class="nav-item nav-link" *ngIf="!isAuthorized" (click) = "login()">
+          <span class="glyphicon glyphicon-user">Login</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a class="nav-item nav-link" *ngIf="isAuthorized" (click)="logout()">
+          <span class='glyphicon glyphicon-log-out'></span>Logout
+        </a>
+      </li>
 
-      <button mat-button routerLink="/login" [hidden]="isLoggedIn$ | async" class="login">Login</button>
-      <button mat-button (click)="onLogout()" *ngIf="isLoggedIn$ | async" class="logout">Logout</button>
-
-      <a class="nav-item nav-link" href="https://github.com/vasilevieru" target="_blank">
+      <a class="nav-item nav-link" routerLink="profile">
+        <i class="fa fa-user"> Profile</i>
+      </a>
+      <a class="nav-item nav-link"  routerLink="cart" [class.activated] = "true" (click)="service.getProductsFromCart()" *ngIf="currentUserService.isCustomer() | async">
+        <i class="fa fa-shopping-cart"> Cart: {{service.totalPrice | async}} Lei </i>
+      </a>
+      <a class="nav-item nav-link" href="https://github.com/vasilevieru">
         <i class="fa fa-github"></i>
       </a>
-      <a class="nav-item nav-link" target="_blank">
+      <a class="nav-item nav-link">
         <i class="fa fa-odnoklassniki"></i>
       </a>
-      <a class="nav-item nav-link" target="_blank">
+      <a class="nav-item nav-link">
         <i class="fa fa-instagram"></i>
       </a>
     </div>

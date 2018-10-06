@@ -10,6 +10,10 @@ button:hover{
 color: #dddddd;
 }
 
+a:hover{
+ cursor: pointer;
+}
+
 /*a {*/
   /*text-decoration: none;*/
   /*padding-left: 10px;*/

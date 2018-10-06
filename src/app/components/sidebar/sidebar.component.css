@@ -8,6 +8,7 @@
   list-style: none;
   overflow: hidden;
   position: relative;
+  margin-top: 50px;
 }
 
 .side-nav a, .dropdown-btn {
@@ -27,6 +28,10 @@
 /* On mouse-over */
 .side-nav a:hover, .dropdown-btn:hover {
   color: green;
+}
+
+.side-nav a:active{
+  color: dodgerblue;
 }
 
 .active {

@@ -7,6 +7,11 @@ import { LoginComponent } from './components/login/login.component';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
 import {ListProductComponent} from './components/admin/list-product/list-product.component';
 import {AddProductComponent} from './components/admin/add-product/add-product.component';
+import {CartComponent} from './components/cart/cart.component';
+import {UnauthorizedComponent} from './components/unauthorized/unauthorized.component';
+import {AuthGuard} from './services/auth.guard';
+import {NotFoundComponent} from './components/not-found/not-found.component';
+import {ConfirmationOrderComponent} from './components/confirmation-order/confirmation-order.component';
 
 
 export const routerConfig: Routes = [
@@ -45,8 +50,22 @@ export const routerConfig: Routes = [
   },{
     path: 'create',
     component: AddProductComponent
+  },{
+    path: 'cart',
+    component: CartComponent,
+    canActivate: [AuthGuard]
+  },{
+    path: 'unauthorized',
+    component: UnauthorizedComponent
+   },
+  {
+    path: 'notfound',
+    component: NotFoundComponent
+  },
+  {
+    path: 'cart/confirmation_order',
+    component: ConfirmationOrderComponent
   }
-
 ];
 @NgModule({
   imports: [

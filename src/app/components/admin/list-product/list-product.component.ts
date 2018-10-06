@@ -3,7 +3,6 @@ import {Product} from '../../../models/Product';
 import {ProductService} from '../../../services/product.service';
 import {MatDialog, MatDialogConfig, MatDialogRef, MatTableDataSource} from '@angular/material';
 import {AddProductComponent} from '../add-product/add-product.component';
-import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -12,10 +11,14 @@ import {forEach} from '@angular/router/src/utils/collection';
   styleUrls: ['./list-product.component.scss']
 })
 export class ListProductComponent implements OnInit {
+
+  pageSize = 5;
+  currentPage = 0;
+  totalSize: number = 0;
   products: Product[] = [];
   product: Product;
   dialogRef: MatDialogRef<AddProductComponent>;
-  dataSource = new MatTableDataSource(this.dataSource);
+  dataSource: MatTableDataSource<Product>;
   public displayedColumns = ['name', 'unitPrice', 'description', 'category', 'subCategory', 'photoUrl', 'actionsColumn'];
   editing = false;
   index: number;
@@ -24,60 +27,67 @@ export class ListProductComponent implements OnInit {
   constructor(private service: ProductService, private dialog: MatDialog) {
   }
 
+  ngOnInit() {
+    this.service.getProductsOfPage(this.currentPage + 1, this.pageSize).subscribe(result => {
+      this.products = result.data;
+      this.dataSource = new MatTableDataSource<Product>(this.products);
+      this.totalSize = result.count;
+    });
+  }
+
   getDialogConfig(){
     const dialogConfig = new MatDialogConfig<Product>();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    dialogConfig.height = '550px';
+    dialogConfig.height = '570px';
     dialogConfig.width = '450px';
     return dialogConfig;
   }
 
-  openDialog() {
-
-    let config = this.getDialogConfig();
-    config.data = this.product;
-
-    this.dialogRef = this.dialog.open(AddProductComponent, config);
-
-    this.dialogRef.afterClosed().subscribe(data => {
-      this.product = data;
-
-      if (this.editing === false) {
-        this.service.createProduct(this.product);
-        console.log("creating");
-        this.dataSource.push(this.product);
-        this.dataSource = new MatTableDataSource(this.dataSource);
-        this.editing = true;
-      } else {
-        this.editing = false;
-
-      }
+  handlePage(event: any){
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.service.getProductsOfPage(this.currentPage + 1, this.pageSize).subscribe(result => {
+      this.products = result.data;
+      this.dataSource = new MatTableDataSource<Product>(this.products);
+      this.totalSize = result.count;
     });
-  }
-
-  ngOnInit() {
-    this.service.getAllProducts().subscribe(data => this.dataSource = data);
   }
 
   createProduct() {
     this.product = new Product();
-    this.openDialog();
+    let config = this.getDialogConfig();
+    config.data = this.product;
+    this.dialogRef = this.dialog.open(AddProductComponent, config);
+    this.dialogRef.afterClosed().subscribe(data => {
+      this.product = data;
+      if(this.product.id != undefined){
+        this.products.push(this.product);
+        this.dataSource = new MatTableDataSource<Product>(this.products);
+        this.editing = true;
+      }
+    })
   }
 
   startEdit(i: number, p: Product) {
     this.editing = true;
     this.product = p;
     let config = this.getDialogConfig();
+    config.height = '510px';
     config.data = p;
-    this.dialog.open(AddProductComponent, config);
-
-    this.dialogRef.afterClosed().subscribe(result => {
-      // if(result === 1){
-      //   const foundIndex = this.dataSource.value.findIndex(x=> x.id === p.id);
-      //   this.dataSource.value[foundIndex] = result;
-      // }
+    this.dialogRef = this.dialog.open(AddProductComponent, config);
+    this.dialogRef.afterClosed().subscribe(data => {
+      this.product = data;
+      this.products[i] = this.product;
+      this.dataSource = new MatTableDataSource<Product>(this.products);
+      this.editing = false;
     })
+  }
+
+  delete(i: number, p: Product){
+    this.service.deleteProduct(p.id).do(console.log).subscribe(x => {});
+    this.products.splice(i, 1);
+    this.dataSource = new MatTableDataSource<Product>(this.products);
   }
 }

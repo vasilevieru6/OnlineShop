@@ -19,7 +19,7 @@
 //       (isAuthenticated: boolean) => this.isAuthenticated = isAuthenticated
 //     );
 //
-//     productService.getCategories().subscribe((data: any[]) => this.joggingData = data);
+//     productService.getCategoriesAndSubCategories().subscribe((data: any[]) => this.joggingData = data);
 //     // this.currentJogging = this.setInitialValuesForJoggingData();
 //   }
 // }

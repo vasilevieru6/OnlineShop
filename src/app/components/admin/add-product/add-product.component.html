@@ -1,130 +1,69 @@
 <div class="container">
   <h2 mat-dialog-title>Create Product</h2>
-  <form class="mat-dialog-content" (ngSubmit)="onSubmit()" [dataSource]="prod" #formControl="ngForm">
-    <input placeholder="Id" name="id" type="hidden" class="form-control" [(ngModel)]=" prod.id">
+  <form [formGroup]="createForm" class="mat-dialog-content" (ngSubmit)="onSubmit()" [dataSource]="prod">
     <div class="form">
-      <mat-form-field class="full-width-input">
-        <input matInput placeholder="Name" [(ngModel)]="prod.name"  name="name" required class="form-control">
-        <!--<mat-error *ngIf="isFieldInvalid('name')">-->
-          <!--Please introduce name-->
-        <!--</mat-error>-->
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
+      <input formControlName="id" [hidden]="true">
     </div>
+
     <div class="form">
       <mat-form-field class="full-width-input">
-        <input matInput placeholder="UnitPrice" [(ngModel)]="prod.unitPrice" name="unitPrice" required class="form-control">
-        <!--<mat-error *ngIf="isFieldInvalid('unitPrice')">-->
-          <!--Please introduce price-->
-        <!--</mat-error>-->
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="form">
-      <mat-form-field class="full-width-input">
-        <input matInput placeholder="Description" [(ngModel)]="prod.description" name="description" required class="form-control">
-        <!--<mat-error *ngIf="isFieldInvalid('description')">-->
-          <!--Please introduce description-->
-        <!--</mat-error>-->
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <input matInput placeholder="Name" formControlName="name" required value="{{prod.name}}">
+        <mat-error *ngIf="createForm.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field class="full-width-input">
-        <input matInput placeholder="PhotoUrl" [(ngModel)]="prod.photoUrl" name="photoUrl" required class="form-control">
-        <!--<mat-error *ngIf="isFieldInvalid('photoUrl')">-->
-          <!--Please chose photo-->
-        <!--</mat-error>-->
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <input matInput placeholder="UnitPrice" formControlName="unitPrice" aria-label="Number" required
+               value="{{prod.unitPrice}}">
+        <mat-error *ngIf="createForm.invalid">{{ getErrorMessage() }}</mat-error>
       </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field class="full-width-input">
-        <input matInput placeholder="Category" [(ngModel)]="prod.category" name="category" required class="form-control">
-        <!--<mat-error *ngIf="isFieldInvalid('category')">-->
-          <!--Please introduce category-->
-        <!--</mat-error>-->
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <textarea matInput placeholder="Description" formControlName="description" required
+                  value="{{prod.description}}"></textarea>
+        <mat-error *ngIf="createForm.invalid">{{ getErrorMessage() }}</mat-error>
       </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field class="full-width-input">
-        <input matInput placeholder="SubCategory" [(ngModel)]="prod.subCategory" name="subCategory" required class="form-control">
-        <!--<mat-error *ngIf="isFieldInvalid('subCategory')">-->
-          <!--Please introduce subCategory-->
-        <!--</mat-error>-->
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        <input matInput placeholder="PhotoUrl" formControlName="photoUrl" required value="{{prod.photoUrl}}">
+        <mat-error *ngIf="createForm.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
+
+    <div class="form" *ngIf="!editing">
+      <mat-form-field class="full-width-input">
+        <input matInput placeholder="Category" formControlName="category" required value="{{prod.category}}"
+               [matAutocomplete]="auto1">
+        <mat-autocomplete #auto1="matAutocomplete">
+          <mat-option *ngFor="let option of categories" [value]="option.category">
+            {{option.category}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="createForm.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form" *ngIf="!editing">
+      <mat-form-field class="full-width-input">
+        <input matInput placeholder="SubCategory" formControlName="subCategory" required value="{{prod.subCategory}}"
+               [matAutocomplete]="auto2">
+        <mat-autocomplete #auto2="matAutocomplete">
+          <mat-option *ngFor="let option of subCategories" [value]="option.subCategory">
+            {{option.subCategory}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="createForm.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
     <div mat-dialog-actions>
-      <button mat-raised-button (click)="save()">Save</button>
+      <button mat-raised-button type="submit">Save</button>
       <button mat-raised-button (click)="close()">Cancel</button>
     </div>
   </form>
 </div>
-
-<!--<div class="jumbotron">-->
-<!--<div class="container">-->
-<!--<div class="row">-->
-<!--<div class="col-md-6 offset-md-3">-->
-<!--<h4>Create Product</h4>-->
-<!--<form [formGroup]="createProductForm" (ngSubmit)="onSubmit()">-->
-<!--<div class="form-group">-->
-<!--<label>Name</label>-->
-<!--<input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />-->
-<!--<div *ngIf="submitted && f.name.errors" class="invalid-feedback">-->
-<!--<div *ngIf="f.name.errors.required">Name is required</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<label>Price</label>-->
-<!--<input type="prod" formControlName="unitPrice" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.unitPrice.errors }" />-->
-<!--<div *ngIf="submitted && f.unitPrice.errors" class="invalid-feedback">-->
-<!--<div *ngIf="f.unitPrice.errors.required">Price is required</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<label>Description</label>-->
-<!--<input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />-->
-<!--<div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
-<!--<div *ngIf="f.description.errors.required">Description is required</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<label>Photo</label>-->
-<!--<input type="file" formControlName="photoUrl" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.photoUrl.errors }" />-->
-<!--<div *ngIf="submitted && f.photoUrl.errors" class="invalid-feedback">-->
-<!--<div *ngIf="f.photoUrl.errors.required">Photo is required</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<label>Category</label>-->
-<!--<input type="text" formControlName="category" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category.errors }" />-->
-<!--<div *ngIf="submitted && f.category.errors" class="invalid-feedback">-->
-<!--<div *ngIf="f.category.errors.required">Category is required</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="form-group">-->
-<!--<label>SubCategory</label>-->
-<!--<input type="text" formControlName="subCategory" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subCategory.errors }" />-->
-<!--<div *ngIf="submitted && f.subCategory.errors" class="invalid-feedback">-->
-<!--<div *ngIf="f.subCategory.errors.required">SubCategory is required</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="form-group">-->
-<!--<button  class="btn btn-primary col-sm-4" >Create</button>-->
-<!--<span class="col-sm-4"></span>-->
-<!--<button  class="btn btn-primary col-sm-4" (click)="close()">Cancel</button>-->
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-

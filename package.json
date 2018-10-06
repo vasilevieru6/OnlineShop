@@ -28,6 +28,7 @@
     "@okta/okta-angular": "^1.0.3",
     "@progress/kendo-angular-scrollview": "^2.0.2",
     "@types/chart.js": "^2.7.31",
+    "angular-auth-oidc-client": "^6.0.10",
     "angular-bootstrap-md": "^6.2.2",
     "angular-font-awesome": "^3.1.2",
     "angular5-csv": "^0.2.10",

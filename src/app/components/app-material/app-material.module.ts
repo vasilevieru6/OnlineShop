@@ -10,6 +10,8 @@ import { MatGridListModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatCheckboxModule} from '@angular/material/checkbox'
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   exports: [
@@ -22,8 +24,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatGridListModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatAutocompleteModule
-
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatSelectModule
   ]
 })
 

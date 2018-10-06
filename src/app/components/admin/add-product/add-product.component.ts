@@ -3,10 +3,11 @@ import {MAT_DIALOG_DATA, MatDialogRef, MatFormFieldControl} from '@angular/mater
 import {Product} from '../../../models/Product';
 import {Observable} from 'rxjs';
 import {ProductService} from '../../../services/product.service';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {map, startWith} from 'rxjs/operators';
+import {Category} from '../../../models/Category';
+import {SubCategory} from '../../../models/SubCategory';
+
 
 @Component({
   selector: 'app-add-product',
@@ -14,57 +15,106 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent implements OnInit {
-
-  createProductForm: FormGroup;
-  formControl: FormControl;
+  createForm: FormGroup;
   submitted = false;
   prod: Product;
+  editing: boolean = true;
   product: Product;
-  private formSubmitAttempt: boolean;
-  filteredCategories: Observable<string[]>;
-  filteredSubcategories: Observable<string[]>;
-  constructor(private formBuilder: FormBuilder, private dialogRef: MatDialogRef<AddProductComponent>, @Inject(MAT_DIALOG_DATA) private data, private sevice: ProductService) {
-    this.formControl = new FormControl("",[Validators.required]);
+  categories: Category[];
+  subCategories: SubCategory[];
+
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddProductComponent>, @Inject(MAT_DIALOG_DATA) private data: Product, private service: ProductService) {
 
   }
 
   ngOnInit() {
     this.prod = this.data;
+    if(this.prod.name != null){
+      this.editing = true;
+    }
+    else{
+      this.editing = false;
+    }
+
+    this.createForm = this.fb.group({
+      id: [this.prod.id],
+      name: [this.prod.name, Validators.required],
+      unitPrice: [this.prod.unitPrice, Validators.required],
+      description: [this.prod.description, Validators.required],
+      photoUrl: [this.prod.photoUrl, Validators.required],
+      category: [this.prod.category, Validators.required],
+      subCategory: [this.prod.subCategory, Validators.required]
+    });
+
+    this.createForm.get('category').valueChanges.subscribe(
+      categ => {
+        if (categ != '') {
+          this.service.searchCategory(categ).subscribe(
+            x => {
+              this.categories = x as Category[];
+            }
+          );
+        }
+      }
+    );
+
+    this.createForm.get('subCategory').valueChanges.subscribe(
+      subCateg => {
+        if(subCateg != ''){
+          this.service.searchSubCategories(subCateg).subscribe(
+            x => {
+              this.subCategories = x as SubCategory[];
+            }
+          );
+        }
+      }
+    );
   }
 
-  // get f(){ return this.createProductForm.controls; }
-
-  onSubmit(){
-    this.submitted = true;
+  onSubmit() {
+    if (this.createForm.valid) {
+      this.submitted = true;
+      this.fillProduct();
+      this.validateAllFormFields(this.createForm);
+      if(this.editing == true){
+        this.service.updateProduct(this.product).subscribe(x => {})
+      }else{
+        this.service.createProduct(this.product).subscribe(x => {});
+      }
+      this.dialogRef.close(this.product);
+    } else{
+      this.validateAllFormFields(this.createForm);
+    }
   }
 
-  getErrorMessage(){ return this.formControl.hasError('required') ? 'Required field' : ''; }
-
-  // isFieldInvalid(field: string) { // {6}
-  //   return (
-  //     (!this.createProductForm.get(field).valid && this.createProductForm.get(field).touched) ||
-  //     (this.createProductForm.get(field).untouched && this.formSubmitAttempt) || (!this.createProductForm.get(field).value)
-  //   );
-  // }
-
-  save(){
-    this.fillProduct();
-    this.dialogRef.close(this.product);
+  getErrorMessage() {
+    return this.createForm.hasError('required') ? 'Required field' : '';
   }
 
-  fillProduct(){
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({onlySelf: true});
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
+  fillProduct() {
     this.product = new Product();
-    //this.product.id = this.formControl.get('id').value;
-    this.product.name = this.formControl.value.name;
-    this.product.unitPrice = this.formControl.value.unitPrice;
-    this.product.description = this.formControl.value.description;
-    this.product.photoUrl = this.formControl.value.photoUrl;
-    this.product.category = this.formControl.value.category;
-    this.product.subCategory = this.formControl.value.subCategory;
+    this.product.id = this.createForm.get('id').value;
+    this.product.name = this.createForm.get('name').value;
+    this.product.unitPrice = this.createForm.get('unitPrice').value;
+    this.product.description = this.createForm.get('description').value;
+    this.product.photoUrl = this.createForm.get('photoUrl').value;
+    this.product.category = this.createForm.get('category').value;
+    this.product.subCategory = this.createForm.get('subCategory').value;
   }
 
-  close(){
-    this.dialogRef.close();
+  close() {
+    this.dialogRef.close(new Product());
   }
 
 }

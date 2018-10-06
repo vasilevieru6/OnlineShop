@@ -18,7 +18,7 @@ export class UserProfileComponent implements OnInit {
 
   }
 
-  editUsername(disable) {
+  editUsername(disable: any) {
     console.log("Salut");
     disable.disabled = false;//!this.disabled;
     //this.ngControl.disabled[]

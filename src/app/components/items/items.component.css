@@ -34,6 +34,10 @@ mat-card{
   cursor: pointer;
 }
 
+mat-paginator{
+  margin-right: 50px;
+}
+
 mat-card-actions{
   display: flex;
   align-items: center;

@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
 
@@ -29,14 +29,4 @@ export class HeaderComponent implements OnInit {
       this.isNavbarOpen = true;
     }
   }
-
-  // @HostListener('window:scroll', ['$event'])
-  // onWindowScroll($event) {
-  //   const number = $event.target.scrollTop;
-  //   if (number > 40) {
-  //     this.shouldStick = true;
-  //   } else if (this.shouldStick && number < 10) {
-  //     this.shouldStick = false;
-  //   }
-  // }
 }

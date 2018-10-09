@@ -1,4 +1,4 @@
-import {CartItem} from './CartItem';
+import {CartItem} from '../cart/CartItem';
 
 export class Page<T>{
   count: number;

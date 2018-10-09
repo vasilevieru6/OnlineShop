@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {CartItem} from '../../models/CartItem';
+import {CartItem} from '../../models/cart/CartItem';
 import {MatDialog, MatDialogConfig, MatDialogRef, MatTableDataSource} from '@angular/material';
-import {CartService} from '../../services/cart.service';
-import {Address} from '../../models/Address';
+import {CartService} from '../../services/cart/cart.service';
+import {Address} from '../../models/address/Address';
 import {AddressComponent} from '../address/address.component';
-import {Order} from '../../models/Order';
-import {OrderService} from '../../services/order.service';
-import {AddressService} from '../../services/address.service';
+import {Order} from '../../models/order/Order';
+import {OrderService} from '../../services/order/order.service';
+import {AddressService} from '../../services/address/address.service';
 import {FormControl, Validators} from '@angular/forms';
+import {NavigationEnd, Router} from '@angular/router';
+import {ProductService} from '../../services/product/product.service';
 
 @Component({
   selector: 'app-confirmation-order',
@@ -27,9 +29,10 @@ export class ConfirmationOrderComponent implements OnInit {
   dialogRef: MatDialogRef<AddressComponent>;
   addresses: Address[] = [];
   selectedValue: number;
+  currentUrl: string;
 
 
-  constructor(public service: CartService, private dialog: MatDialog, private orderService: OrderService, private addressService: AddressService) { }
+  constructor(public service: CartService, private dialog: MatDialog, private orderService: OrderService, private addressService: AddressService, private router: Router) { }
 
   ngOnInit() {
     this.service.getProductsFromCart().subscribe(result => {
@@ -68,6 +71,8 @@ export class ConfirmationOrderComponent implements OnInit {
     this.order = new Order();
     this.order.addressId = this.selectedValue;
     this.orderService.create(this.order).subscribe();
+    this.service.emptyCart();
+    this.router.events.subscribe((_:NavigationEnd) => this.currentUrl = _.url);
   }
 
 }

@@ -1,12 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatFormFieldControl} from '@angular/material';
-import {Product} from '../../../models/Product';
-import {Observable} from 'rxjs';
-import {ProductService} from '../../../services/product.service';
+import {Product} from '../../../models/product/Product';
+import {ProductService} from '../../../services/product/product.service';
 import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {map, startWith} from 'rxjs/operators';
-import {Category} from '../../../models/Category';
-import {SubCategory} from '../../../models/SubCategory';
+import {Category} from '../../../models/product/Category';
+import {SubCategory} from '../../../models/product/SubCategory';
 
 
 @Component({
@@ -75,7 +73,6 @@ export class AddProductComponent implements OnInit {
     if (this.createForm.valid) {
       this.submitted = true;
       this.fillProduct();
-      this.validateAllFormFields(this.createForm);
       if(this.editing == true){
         this.service.updateProduct(this.product).subscribe(x => {})
       }else{

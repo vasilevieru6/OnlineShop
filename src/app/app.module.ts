@@ -5,11 +5,9 @@ import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-// import { HomeComponent } from './components/home/home.component';
 import {CatalogComponent} from './components/catalog/catalog.component';
 import {RouterModule} from '@angular/router';
 import {SidebarComponent} from './components/sidebar/sidebar.component';
-import {MenuComponent} from './components/menu/menu.component';
 import {MatIconModule} from '@angular/material';
 import {MatButtonModule} from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
@@ -17,12 +15,11 @@ import {ItemsComponent} from './components/items/items.component';
 import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
-import {LoginComponent} from './components/login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ListProductComponent} from './components/admin/list-product/list-product.component';
 import {AddProductComponent} from './components/admin/add-product/add-product.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ProductService} from './services/product.service';
+import {ProductService} from './services/product/product.service';
 import {HttpClientModule} from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.Interceptor';
@@ -40,12 +37,14 @@ import {AppMaterialModule} from './components/app-material/app-material.module';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
 import {CartComponent} from './components/cart/cart.component';
 import {UnauthorizedComponent} from './components/unauthorized/unauthorized.component';
-import {AuthGuard} from './services/auth.guard';
+import {AuthGuard} from './guards/auth.guard';
 import {ConfigurationService} from './configuration/configuration.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ConfirmationOrderComponent } from './components/confirmation-order/confirmation-order.component';
 import { AddressComponent } from './components/address/address.component';
-import {OrderService} from './services/order.service';
+import {OrderService} from './services/order/order.service';
+import {ConfirmationOrderGuard} from './guards/confirmation-order.guard';
+import { OrdersComponent } from './components/orders/orders.component';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   console.log('APP-INITIALIZER STARTING');
@@ -55,15 +54,12 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
 @NgModule({
   declarations: [
     AppComponent,
-    /* HomeComponent,*/
     CatalogComponent,
     SidebarComponent,
-    MenuComponent,
     ItemsComponent,
     HeaderComponent,
     FooterComponent,
     NavbarComponent,
-    LoginComponent,
     UserProfileComponent,
     AddProductComponent,
     ListProductComponent,
@@ -71,7 +67,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     UnauthorizedComponent,
     NotFoundComponent,
     ConfirmationOrderComponent,
-    AddressComponent
+    AddressComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +91,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     ProductService,
     OidcConfigService,
     AuthGuard,
+    ConfirmationOrderGuard,
     {
       provide: APP_INITIALIZER,
       useFactory: loadConfig,

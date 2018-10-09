@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHandler, HttpHeaders} from '@angular/common/http';
-import {ProductCategories} from '../models/ProductCategories';
+import {ProductCategories} from '../../models/product/ProductCategories';
 import 'rxjs/add/operator/do';
-import {Product} from '../models/Product';
+import {Product} from '../../models/product/Product';
 import {debounceTime, map} from 'rxjs/operators';
-import {Category} from '../models/Category';
-import {SubCategory} from '../models/SubCategory';
-import {Page} from '../models/Page';
+import {Category} from '../../models/product/Category';
+import {SubCategory} from '../../models/product/SubCategory';
+import {Page} from '../../models/product/Page';
+import {ReplaySubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,21 @@ export class ProductService {
   url: string = '/api/product';
   category: string;
   subCategory: string;
+  categories = new ReplaySubject<ProductCategories[]>(1);
+  selected: string;
 
   constructor(private http: HttpClient) {
-
+    this.getCategoriesAndSubCategories().subscribe(result => {
+      this.categories.next(result);
+    })
   }
 
   public totalProduct: number;
   products: Product[] = [];
 
-
+  getMostShippedProducts(pageNumber: number, pageSize: number){
+    return this.http.get<Page<Product>>("/api/product/mostShipped/" + pageNumber + '/' + pageSize);
+  }
 
   getCategoriesAndSubCategories() {
     return this.http.get<ProductCategories[]>(this.baseUrl);
@@ -64,6 +71,7 @@ export class ProductService {
   }
 
   getProductsOfCategory(category: string, subCategory: string, pageNumber: number, pageSize: number) {
+    this.selected = this.subCategory;
     return this.http.get<Page<Product>>('/api/product/' + category + '/' + subCategory + '/' + pageNumber + '/' + pageSize);
   }
 
@@ -72,6 +80,7 @@ export class ProductService {
   }
 
   createProduct(product: Product) {
+    product.id = 0;
     return this.http.post('/api/product', product);
   }
 

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Product} from '../../../models/Product';
-import {ProductService} from '../../../services/product.service';
+import {Product} from '../../../models/product/Product';
+import {ProductService} from '../../../services/product/product.service';
 import {MatDialog, MatDialogConfig, MatDialogRef, MatTableDataSource} from '@angular/material';
 import {AddProductComponent} from '../add-product/add-product.component';
 
@@ -66,6 +66,9 @@ export class ListProductComponent implements OnInit {
         this.products.push(this.product);
         this.dataSource = new MatTableDataSource<Product>(this.products);
         this.editing = true;
+        this.service.getCategoriesAndSubCategories().subscribe(result => {
+          this.service.categories.next(result);
+        })
       }
     })
   }
@@ -86,7 +89,9 @@ export class ListProductComponent implements OnInit {
   }
 
   delete(i: number, p: Product){
-    this.service.deleteProduct(p.id).do(console.log).subscribe(x => {});
+    this.service.deleteProduct(p.id).do(console.log).subscribe(x => {
+      this.totalSize -= 1;
+    });
     this.products.splice(i, 1);
     this.dataSource = new MatTableDataSource<Product>(this.products);
   }

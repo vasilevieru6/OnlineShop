@@ -1,23 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from '../../services/product.service';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {Product} from '../../models/Product';
-import {CartService} from '../../services/cart.service';
-import {CartItemQuantity} from '../../models/CartItemQuantity';
-import {NotificationService} from '../../services/notification.service';
-import {MatTableDataSource} from '@angular/material';
-import {CartItem} from '../../models/CartItem';
-import {CurrentUserService} from '../../services/current-user.service';
+import {ProductService} from '../../services/product/product.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Product} from '../../models/product/Product';
+import {CartService} from '../../services/cart/cart.service';
+import {CartItemQuantity} from '../../models/cart/CartItemQuantity';
+import {CurrentUserService} from '../../services/user/current-user.service';
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css'],
+  styleUrls: ['./items.component.scss'],
   providers: [ProductService]
 })
 export class ItemsComponent implements OnInit {
 
-  pageSize = 2;
+  pageSize = 10;
   currentPage = 0;
   totalSize: number = 0;
   products: Product[] = [];

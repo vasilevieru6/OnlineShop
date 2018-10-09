@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {NotificationService} from './services/notification.service';
 import {OidcSecurityService} from 'angular-auth-oidc-client';
-import {CurrentUserService} from './services/current-user.service';
+import {CurrentUserService} from './services/user/current-user.service';
 
 @Component({
   selector: 'app-root',

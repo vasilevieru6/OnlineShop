@@ -29,10 +29,13 @@
     </div>
 
     <div class="form">
-      <mat-form-field class="full-width-input">
-        <input matInput placeholder="PhotoUrl" formControlName="photoUrl" required value="{{prod.photoUrl}}">
-        <mat-error *ngIf="createForm.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
+      <!--<mat-form-field class="full-width-input">-->
+      <input ng2FileSelect type="file" formControlName="photos" multiple (change)="fileEvent($event)" style="display: none;" accept="image/*" #filePicker required>
+      <button mat-raised-button color="primary" (click)="filePicker.click()">Upload Images</button>
+
+      <!--<input placeholder="PhotoUrl" formControlName="photoUrl" required value="{{prod.photoUrl}}" type="file">-->
+      <mat-error *ngIf="createForm.invalid">{{getErrorMessage()}}</mat-error>
+      <!--</mat-form-field>-->
     </div>
 
     <div class="form" *ngIf="!editing">
@@ -62,8 +65,8 @@
     </div>
 
     <div mat-dialog-actions>
-      <button mat-raised-button type="submit">Save</button>
-      <button mat-raised-button (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button mat-raised-button color="primary" (click)="close()">Cancel</button>
     </div>
   </form>
 </div>

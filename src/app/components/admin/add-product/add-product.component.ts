@@ -5,6 +5,9 @@ import {ProductService} from '../../../services/product/product.service';
 import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {Category} from '../../../models/product/Category';
 import {SubCategory} from '../../../models/product/SubCategory';
+import {Photo} from '../../../models/photo/Photo';
+import {FileUploader} from 'ng2-file-upload';
+import {UploadService} from '../../../services/upload.service';
 
 
 @Component({
@@ -20,8 +23,15 @@ export class AddProductComponent implements OnInit {
   product: Product;
   categories: Category[];
   subCategories: SubCategory[];
-
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddProductComponent>, @Inject(MAT_DIALOG_DATA) private data: Product, private service: ProductService) {
+  photos: Photo[] = [];
+  photo: Photo;
+  uploader: FileUploader = new FileUploader({url: 'api/upload', removeAfterUpload: false, autoUpload: true});
+  path: string = "C:\\Users\\vasile.vieru\\Pictures\\onlineshop\\";
+  constructor(private fb: FormBuilder,
+              private dialogRef: MatDialogRef<AddProductComponent>,
+              @Inject(MAT_DIALOG_DATA) private data: Product,
+              private service: ProductService,
+              private uploadService: UploadService) {
 
   }
 
@@ -39,7 +49,7 @@ export class AddProductComponent implements OnInit {
       name: [this.prod.name, Validators.required],
       unitPrice: [this.prod.unitPrice, Validators.required],
       description: [this.prod.description, Validators.required],
-      photoUrl: [this.prod.photoUrl, Validators.required],
+      photos: [this.prod.photos, Validators.required],
       category: [this.prod.category, Validators.required],
       subCategory: [this.prod.subCategory, Validators.required]
     });
@@ -69,6 +79,33 @@ export class AddProductComponent implements OnInit {
     );
   }
 
+  fileEvent(event: any) {
+    if(event.target.files && event.target.files.length > 0) {
+      // for (let file of event.target.files){
+      //   let filename = file.name;
+      //   let type = file.type;
+      //   this.photo = new Photo();
+      //   this.photo.type = type;
+      //   this.photos.push(this.photo);
+      // }
+
+      let filesToUpload = event.target.files;
+
+      this.uploadService.upload(filesToUpload, "/photoupload").subscribe(data => {
+
+        let filesDetails: any[] = [];
+        for (let file of event.target.files){
+          let fileDetails = {
+            filename: file.name,
+            type: file.type,
+            path: "http://localhost:5001/Uploads/" + data._body,
+          };
+          filesDetails.push(fileDetails);
+        }
+      })
+    }
+  }
+
   onSubmit() {
     if (this.createForm.valid) {
       this.submitted = true;
@@ -80,6 +117,7 @@ export class AddProductComponent implements OnInit {
       }
       this.dialogRef.close(this.product);
     } else{
+      console.log(this.createForm.get('photoUrl').value);
       this.validateAllFormFields(this.createForm);
     }
   }
@@ -104,8 +142,8 @@ export class AddProductComponent implements OnInit {
     this.product.id = this.createForm.get('id').value;
     this.product.name = this.createForm.get('name').value;
     this.product.unitPrice = this.createForm.get('unitPrice').value;
+    this.product.photos = this.photos;
     this.product.description = this.createForm.get('description').value;
-    this.product.photoUrl = this.createForm.get('photoUrl').value;
     this.product.category = this.createForm.get('category').value;
     this.product.subCategory = this.createForm.get('subCategory').value;
   }

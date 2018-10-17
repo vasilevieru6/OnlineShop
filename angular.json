@@ -11,6 +11,7 @@
       "schematics": {},
       "architect": {
         "build": {
+
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/FinalProjec",
@@ -36,6 +37,14 @@
             ]
           },
           "configurations": {
+            "hmr":{
+              "fileReplacements":[
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -62,6 +71,9 @@
             "proxyConfig": "proxy.config.json"
           },
           "configurations": {
+            "hmr": {
+              "browserTarget": "FinalProjec:build:hmr"
+            },
             "production": {
               "browserTarget": "FinalProjec:build:production"
             }

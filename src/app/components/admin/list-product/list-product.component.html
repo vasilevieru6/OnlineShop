@@ -11,6 +11,14 @@
           <span> {{ product.id }} </span>
       </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="photo">
+    <mat-header-cell *matHeaderCellDef>Photo</mat-header-cell>
+    <mat-cell *matCellDef="let product">
+    <img src="D:\onlineshop\images.jpg" *ngIf="product.photos.length > 0" style="width: 45px; height: 45px;">
+    </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
       <mat-cell *matCellDef="let product">
@@ -41,13 +49,6 @@
           <span>{{ product.subCategory }}</span>
       </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="photoUrl">
-      <mat-header-cell *matHeaderCellDef>Photo URL</mat-header-cell>
-      <mat-cell *matCellDef="let product">
-          <span>{{ product.photoUrl }}</span>
-      </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="actionsColumn">
       <mat-header-cell *matHeaderCellDef>
         <button mat-icon-button color="accent" (click)="createProduct()">

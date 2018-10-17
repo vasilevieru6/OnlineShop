@@ -12,14 +12,14 @@ import {AddProductComponent} from '../add-product/add-product.component';
 })
 export class ListProductComponent implements OnInit {
 
-  pageSize = 5;
+  pageSize = 20;
   currentPage = 0;
   totalSize: number = 0;
   products: Product[] = [];
   product: Product;
   dialogRef: MatDialogRef<AddProductComponent>;
   dataSource: MatTableDataSource<Product>;
-  public displayedColumns = ['name', 'unitPrice', 'description', 'category', 'subCategory', 'photoUrl', 'actionsColumn'];
+  public displayedColumns = ['photo','name', 'unitPrice', 'description', 'category', 'subCategory', 'actionsColumn'];
   editing = false;
   index: number;
 

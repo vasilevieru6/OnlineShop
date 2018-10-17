@@ -32,6 +32,8 @@ import {
   OidcConfigService
 } from 'angular-auth-oidc-client';
 
+import { FileUploadModule } from 'ng2-file-upload';
+
 
 import {AppMaterialModule} from './components/app-material/app-material.module';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
@@ -45,6 +47,7 @@ import { AddressComponent } from './components/address/address.component';
 import {OrderService} from './services/order/order.service';
 import {ConfirmationOrderGuard} from './guards/confirmation-order.guard';
 import { OrdersComponent } from './components/orders/orders.component';
+import { AngularFireModule } from 'angularfire2';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   console.log('APP-INITIALIZER STARTING');
@@ -84,6 +87,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     HttpClientModule,
     MatTableModule,
     FormsModule,
+    FileUploadModule,
+    AngularFireModule,
     AuthModule.forRoot()
   ],
   schemas: [NO_ERRORS_SCHEMA],
